@@ -1,27 +1,24 @@
-# CustomizedLLMs
-
-
 import anthropic
-ANTHROPIC_API_KEY = 
-# Initialize the client (automatically reads ANTHROPIC_API_KEY)
+
+ANTHROPIC_API_KEY = "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"
+
+# Initialize the client
 client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
-try:
-    message = client.messages.create(
-        model="claude-opus-5-5",
-        #model="claude-3-5-sonnet-20241022",
-        max_tokens=20,
-        messages=[
-            {"role": "user", "content": "Say 'Key is working!'"}
-        ]
-    )
-    print("Success:", message.content[0].text)
-
-except anthropic.AuthenticationError:
-    print("Authentication Error: Your API key is invalid or expired.")
-except anthropic.PermissionDeniedError:
-    print("Permission Error: Your key lacks access to this model or workspace.")
-except anthropic.RateLimitError:
-    print("Rate Limit / Billing Error: Check your account credits or rate limits.")
-except Exception as e:
-    print(f"An error occurred: {e}")
+def test_model(model_name):
+    try:
+        print(f"Testing model: {model_name}...")
+        message = client.messages.create(
+            model=model_name,
+            max_tokens=20,
+            messages=[{"role": "user", "content": "Say 'Key is working!'"}]
+        )
+        print(f"Success with {model_name}: {message.content[0].text}\n")
+        return True
+    except anthropic.NotFoundError:
+        print(f"Error: Model '{model_name}' was not found or is restricted for this API key.\n")
+        return False
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}\n")
+        return False
+test_model("claude-sonnet-5-5")
