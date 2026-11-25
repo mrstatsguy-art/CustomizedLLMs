@@ -2,8 +2,7 @@
 
 
 import anthropic
-ANTHROPIC_API_KEY = "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"
-
+ANTHROPIC_API_KEY = 
 # Initialize the client (automatically reads ANTHROPIC_API_KEY)
 client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
